@@ -10,17 +10,17 @@ pygame.mixer.init()
 # Génération de la fenêtre du jeu
 pygame.display.set_caption("DashLegends")
 
-# On met le jeu en plein écran et on détermine le nombre d'image par seconde maximum
+# Met le jeu en plein écran et on détermine le nombre d'image par seconde maximum
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 clock = pygame.time.Clock()
-FPS_MAX = 60  # On limite les images par seconde
+FPS_MAX = 60  # Limite les IPS
 
 # Ecran du menu
 menu_bg = pygame.image.load(
-    'assets/Background/Mountain/DashLegends.png').convert_alpha()  # Permet de gagner des FPS
+    'assets/Background/Mountain/DashLegends.png').convert_alpha()  # Ajoute une couche alpha au background
 menu_bg = pygame.transform.scale(menu_bg, (1920, 1080))  # Mise à l'échelle
 
-# Ecran de l'option (sans le logo)
+# Ecran options (sans le logo)
 option_bg = pygame.image.load(
     'assets/Background/Mountain/option_screen.png').convert_alpha()
 option_bg = pygame.transform.scale(option_bg, (1920, 1080))
@@ -29,14 +29,16 @@ option_bg = pygame.transform.scale(option_bg, (1920, 1080))
 logo = pygame.image.load('assets/Background/Mountain/logo.png').convert_alpha()
 logo = pygame.transform.scale(logo, (1920//5, 1080//7))
 
-# Mini-map
+# Preview des maps
 naughty_peak = pygame.image.load(
     'assets/Background/Mountain/naughty_peak_preview.png').convert_alpha()
 ice_arena = pygame.image.load(
     'assets/Background/Glacial/glacial_preview.png').convert_alpha()
 ice_arena = pygame.transform.scale(ice_arena, (300, 169))
+neo_lagos = pygame.image.load(
+    'assets/Background/neo_lagos/neo_preview.png').convert_alpha()
 
-# Police d'écriture
+# Police
 font = pygame.font.Font("assets/Miscellaneous/Font/Montserrat-Black.ttf", 50)
 small_font = pygame.font.Font(
     "assets/Miscellaneous/Font/Montserrat-Black.ttf", 25)
@@ -46,7 +48,7 @@ small_pixel = pygame.font.Font(
 symbol = pygame.font.SysFont("segoeuisymbol", 35)
 bigsymbol = pygame.font.SysFont("segoeuisymbol", 55)
 
-# Afin de pouvoir jouer plusieurs sons en même temps
+# Permet de jouer plusieurs sons en même temps
 pygame.mixer.set_num_channels(64)
 
 # Musiques
@@ -61,7 +63,7 @@ pygame.mixer.music.set_volume(volume)
 main_theme.set_volume(volume)
 over.set_volume(volume)
 
-# Jouer la musique à l'infini
+# Boucle musicale
 pygame.mixer.music.play(-1)
 
 # Effets
@@ -74,7 +76,7 @@ on_click.set_volume(0.1)
 on_back.set_volume(0.2)
 launch.set_volume(0.2)
 
-# Image des touches
+# Schéma des touches
 controle = pygame.image.load('assets/Miscellaneous/Option/controls.png')
 
 # Initialisation d'une variable qui détermine si l'on clique
