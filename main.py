@@ -17,24 +17,23 @@ FPS_MAX = 60  # Limite les IPS
 
 # Ecran du menu
 menu_bg = pygame.image.load(
-    'assets/Background/Mountain/DashLegends.png').convert_alpha()  # Ajoute une couche alpha au background
+    'assets/Background/menu/DashLegends.png').convert_alpha()  # Ajoute une couche alpha
 menu_bg = pygame.transform.scale(menu_bg, (1920, 1080))  # Mise à l'échelle
 
 # Ecran options (sans le logo)
 option_bg = pygame.image.load(
-    'assets/Background/Mountain/option_screen.png').convert_alpha()
+    'assets/Background/menu/option_screen.png').convert_alpha()
 option_bg = pygame.transform.scale(option_bg, (1920, 1080))
 
 # Juste le logo (pour le jeu en pause)
-logo = pygame.image.load('assets/Background/Mountain/logo.png').convert_alpha()
+logo = pygame.image.load('assets/Background/menu/logo.png').convert_alpha()
 logo = pygame.transform.scale(logo, (1920//5, 1080//7))
 
 # Preview des maps
-naughty_peak = pygame.image.load(
-    'assets/Background/Mountain/naughty_peak_preview.png').convert_alpha()
-ice_arena = pygame.image.load(
-    'assets/Background/Glacial/glacial_preview.png').convert_alpha()
-ice_arena = pygame.transform.scale(ice_arena, (300, 169))
+sunset_mountain = pygame.image.load(
+    'assets/Background/sunset_mountain/mountain_preview.png').convert_alpha()
+icy_arena = pygame.image.load(
+    'assets/Background/icy_arena/arena_preview.png').convert_alpha()
 neo_lagos = pygame.image.load(
     'assets/Background/neo_lagos/neo_preview.png').convert_alpha()
 
@@ -364,17 +363,17 @@ def pause(game, click):
 
 def choose(game):
     """Choisir les personnages ainsi que les projectiles"""
-    select = 'naughty'
-    option_surface = pygame.Surface((1920, 1080))
+    select = None
+    choose_surface = pygame.Surface((1920, 1080))
     RUNNING = True
     while RUNNING:
-        present_game_surface_on_screen(option_surface)
+        present_game_surface_on_screen(choose_surface)
 
-        option_surface.blit(option_bg, (0, 0))
+        choose_surface.blit(option_bg, (0, 0))
 
         # choisir les joueurs et les projectiles
-        game.choose_players(option_surface, 1920, 1080)
-        game.choose_proj(option_surface, 1920, 1080)
+        game.choose_players(choose_surface, 1920, 1080)
+        game.choose_proj(choose_surface, 1920, 1080)
 
         mx, my = convert_screen_to_game_coordinates(
             pygame.mouse.get_pos())  # Position de la souris
@@ -385,10 +384,12 @@ def choose(game):
         lessgo = pygame.Rect(1920/2 - 100, 1080 - 1080/5, 200, 50)
 
         # Rectangle autour des maps
-        map1 = pygame.Rect(1920-10-naughty_peak.get_width(), 1080-10-naughty_peak.get_height(),
-                           naughty_peak.get_width(), naughty_peak.get_height())
-        map2 = pygame.Rect(1920-10-ice_arena.get_width(), 1080/1.2-10-ice_arena.get_height(),
-                           ice_arena.get_width(), ice_arena.get_height())
+        map1_rect = pygame.Rect(1920-10-sunset_mountain.get_width(), 1080-10-sunset_mountain.get_height(),
+                           sunset_mountain.get_width(), sunset_mountain.get_height())
+        map2_rect = pygame.Rect(1920-10-icy_arena.get_width(), 1080/1.2-10-icy_arena.get_height(),
+                           icy_arena.get_width(), icy_arena.get_height())
+        map3_rect = pygame.Rect(1920-10-neo_lagos.get_width(), 1080/1.5-10-neo_lagos.get_height(),
+                           neo_lagos.get_width(), neo_lagos.get_height())
 
         # Grand rectangle des joueurs et des projectiles
         player1 = pygame.Rect(1920/2-450, 1080/3.5, 250, 400)
@@ -412,8 +413,9 @@ def choose(game):
         # Couleur des boutons
         color_menu = (255, 209, 220)  # Retour en arrière
         color_lessgo = (220, 139, 220)  # Bouton pour jouer
-        color1 = (255, 255, 255)
-        color2 = (255, 255, 255)
+        color_rect_map_1 = (255, 255, 255)
+        color_rect_map_2 = (255, 255, 255)
+        color_rect_map_3 = (255, 255, 255)
         player1_l_color = (255, 255, 255)  # Flèches
         player1_r_color = (255, 255, 255)
         player2_l_color = (255, 255, 255)
@@ -441,15 +443,20 @@ def choose(game):
                 ingame(Game(name_player_1, name_player_2, name_proj_1, name_proj_2, map_background),
                        name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
 
-        if map1.collidepoint((mx, my)):
-            color1 = (255, 105, 97)
+        if map1_rect.collidepoint((mx, my)):
+            color_rect_map_1 = (255, 105, 97)
             if click:  # Si le bouton est cliquer, démarrer le jeu
-                select = 'naughty'
+                select = 'sunset'
 
-        if map2.collidepoint((mx, my)):
-            color2 = (255, 105, 97)
+        if map2_rect.collidepoint((mx, my)):
+            color_rect_map_2 = (255, 105, 97)
             if click:  # Si le bouton est cliquer, démarrer le jeu
-                select = 'ice'
+                select = 'icy'
+
+        if map3_rect.collidepoint((mx, my)):
+            color_rect_map_3 = (255, 105, 97)
+            if click:
+                select = 'neo'
 
         if player1_l.collidepoint((mx, my)):
             player1_l_color = (220, 139, 220)
@@ -501,54 +508,66 @@ def choose(game):
 
         # Texte
         draw_text("Choisissez votre personnage",
-                  pixel, (255, 209, 220), option_surface, choose_player)
+                  pixel, (255, 209, 220), choose_surface, choose_player)
 
         # Boutons
-        pygame.draw.rect(option_surface, color_menu, menu, 1, border_radius=15)
-        draw_text('←', bigsymbol, color_menu, option_surface, menu)
+        pygame.draw.rect(choose_surface, color_menu, menu, 1, border_radius=15)
+        draw_text('←', bigsymbol, color_menu, choose_surface, menu)
 
-        pygame.draw.rect(option_surface, color_lessgo,
+        pygame.draw.rect(choose_surface, color_lessgo,
                          lessgo, 1, border_radius=15)
-        draw_text("C'est parti !", small_font,
-                  color_lessgo, option_surface, lessgo)
+        draw_text("Lancer", small_font,
+                  color_lessgo, choose_surface, lessgo)
 
-        draw_text("◀", symbol, player1_l_color, option_surface, player1_l)
-        pygame.draw.rect(option_surface, (255, 255, 255),
+        draw_text("◀", symbol, player1_l_color, choose_surface, player1_l)
+        pygame.draw.rect(choose_surface, (255, 255, 255),
                          player1, 2, border_radius=15)
         draw_text("▶",
-                  symbol, player1_r_color, option_surface, player1_r)
+                  symbol, player1_r_color, choose_surface, player1_r)
 
-        draw_text("◀", symbol, proj1_l_color, option_surface, proj1_l)
-        pygame.draw.rect(option_surface, (255, 255, 255),
+        draw_text("◀", symbol, proj1_l_color, choose_surface, proj1_l)
+        pygame.draw.rect(choose_surface, (255, 255, 255),
                          choose_proj1, 2, border_radius=15)
-        draw_text("▶", symbol, proj1_r_color, option_surface, proj1_r)
+        draw_text("▶", symbol, proj1_r_color, choose_surface, proj1_r)
 
         draw_text("◀",
-                  symbol, player2_l_color, option_surface, player2_l)
-        pygame.draw.rect(option_surface, (255, 255, 255),
+                  symbol, player2_l_color, choose_surface, player2_l)
+        pygame.draw.rect(choose_surface, (255, 255, 255),
                          player2, 2, border_radius=15)
         draw_text("▶",
-                  symbol, player2_r_color, option_surface, player2_r)
+                  symbol, player2_r_color, choose_surface, player2_r)
 
-        draw_text("◀", symbol, proj2_l_color, option_surface, proj2_l)
-        pygame.draw.rect(option_surface, (255, 255, 255),
+        draw_text("◀", symbol, proj2_l_color, choose_surface, proj2_l)
+        pygame.draw.rect(choose_surface, (255, 255, 255),
                          choose_proj2, 2, border_radius=15)
-        draw_text("▶", symbol, proj2_r_color, option_surface, proj2_r)
+        draw_text("▶", symbol, proj2_r_color, choose_surface, proj2_r)
 
         # Maps
-        if select == 'naughty':
-            color1 = (255, 105, 97)
-            map_background = 'assets/Background/Mountain/naughty_peak.png'
-        else:
-            color2 = (255, 105, 97)
-            map_background = 'assets/Background/Glacial/glacial.png'
+        if select == 'sunset':
+            color_rect_map_1 = (255, 105, 97)
+            map_background = 'assets/Background/sunset_mountain/mountain.png'
+        elif select == 'icy':
+            color_rect_map_2 = (255, 105, 97)
+            map_background = 'assets/Background/icy_arena/arena.png'
+        elif select == 'neo' :
+            color_rect_map_3 = (255, 105, 97)
+            map_background = 'assets/Background/neo_lagos/neo.png'
 
-        option_surface.blit(
-            naughty_peak, (1920-10-naughty_peak.get_width(), 1080-10-naughty_peak.get_height()))
-        pygame.draw.rect(option_surface, color1, map1, 1)
-        option_surface.blit(
-            ice_arena, (1920-10-ice_arena.get_width(), 1080/1.2-10-ice_arena.get_height()))
-        pygame.draw.rect(option_surface, color2, map2, 1)
+        #Boutons de sélection des maps
+        #Map sunset mountain
+        choose_surface.blit(
+            sunset_mountain, (1920-10-sunset_mountain.get_width(), 1080-10-sunset_mountain.get_height()))
+        pygame.draw.rect(choose_surface, color_rect_map_1, map1_rect, 1)
+
+        #Map icy arena
+        choose_surface.blit(
+            icy_arena, (1920-10-icy_arena.get_width(), 1080/1.2-10-icy_arena.get_height()))
+        pygame.draw.rect(choose_surface, color_rect_map_2, map2_rect, 1)
+
+        #Map neo lagos
+        choose_surface.blit(
+            neo_lagos, (1920-10-neo_lagos.get_width(), 1080/1.5-10-neo_lagos.get_height()))
+        pygame.draw.rect(choose_surface, color_rect_map_3, map3_rect, 1)
 
         click = False
         for event in pygame.event.get():
@@ -645,17 +664,17 @@ def ingame(game, name_player_1, name_player_2, name_proj_1, name_proj_2, map_bac
 
 def game_over(player, end_game, name_player_1, name_player_2, name_proj_1, name_proj_2, map_background):
     """Fonction de fin lorsque un joueur est vaincu !"""
-    option_surface = pygame.Surface((1920, 1080))
+    gameover_surface = pygame.Surface((1920, 1080))
     RUNNING = True
     click = False
     while RUNNING:
-        present_game_surface_on_screen(option_surface)
+        present_game_surface_on_screen(gameover_surface)
         # On fait apparaître l'image du menu
-        option_surface.blit(option_bg, (0, 0))
+        gameover_surface.blit(option_bg, (0, 0))
 
         # Animer les personnages
         end_game.animate()
-        end_game.moving_sprites.draw(option_surface)
+        end_game.moving_sprites.draw(gameover_surface)
 
         mx, my = convert_screen_to_game_coordinates(
             pygame.mouse.get_pos())  # Position de la souris
@@ -693,22 +712,22 @@ def game_over(player, end_game, name_player_1, name_player_2, name_proj_1, name_
                        name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
 
         draw_text(f"Le {player} remporte la DashVictoire",
-                  pixel, (239, 199, 121), option_surface, winner)
+                  pixel, (239, 199, 121), gameover_surface, winner)
 
-        pygame.draw.rect(option_surface, color_menu, menu, 3, border_radius=15)
+        pygame.draw.rect(gameover_surface, color_menu, menu, 3, border_radius=15)
         draw_text('Menu principal', small_pixel,
-                  color_menu, option_surface, menu)
+                  color_menu, gameover_surface, menu)
 
-        pygame.draw.rect(option_surface, color_replay,
+        pygame.draw.rect(gameover_surface, color_replay,
                          replay, 3, border_radius=15)
-        draw_text('Rejouer', pixel, color_replay, option_surface, replay)
+        draw_text('Rejouer', pixel, color_replay, gameover_surface, replay)
 
         for particle in particles:
             particle[0][0] += particle[1][0]
             particle[0][1] += particle[1][1]
             particle[2] -= 0.05
             #particle[1][1] -= 0.1
-            pygame.draw.circle(option_surface, color_gold, [int(
+            pygame.draw.circle(gameover_surface, color_gold, [int(
                 particle[0][0]), int(particle[0][1])], int(particle[2]))
             if particle[2] <= 0:
                 particles.remove(particle)

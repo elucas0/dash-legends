@@ -11,11 +11,11 @@ from thread import MyThread
 
 
 class Game:
-    def __init__(self, name_player_1='blue_dino', name_player_2='red_dino', name_proj_1='Spark', name_proj_2='Bolt', background_name='assets/Background/Mountain/naughty_peak.png'):
-        # definir si notre jeu à commencé ou non
+    def __init__(self, name_player_1='blue_dino', name_player_2='red_dino', name_proj_1='Spark', name_proj_2='Bolt', background_name='assets/Background/sunset_mountain/mountain.png'):
+        # definir si la partie à commencé ou non
         self.is_playing = False
         self.over = False
-        # Hauteur et largeur de l'ecran fixé
+        # Hauteur et largeur de l'ecran fixées
         self.surface = pygame.Surface((1920, 1080))
         self.w, self.h = self.surface.get_size()
 
@@ -56,57 +56,41 @@ class Game:
         self.background = pygame.image.load(background_name).convert()
         self.background = pygame.transform.scale(self.background, (1920, 1080))
 
-        # dictionnaires des tile sheet et de leur valeur dans le csv
-        mountain_tiles = {"1": "top_grass",
-                     "19": "middle_dirt",
-                     "13": "middle_grass",
-                     "49": "middle_rock",
-                     "7": "top_dirt",
-                     "6": "top_left_dirt",
-                     "8": "top_right_dirt",
-                     "38": "top_right_rock",
-                     "50": "right_rock",
-                     "63": "bottom_left_in_rock",
-                     "37": "top_rock",
-                     "60": "bottom_left_rock",
-                     "61": "bottom_rock",
-                     "62": "bottom_right_rock",
-                     "41": "top_right_in_rock",
-                     "48": "left_rock",
-                     "65": "bottom_right_in_rock",
-                     "36": "top_left_rock",
-                     "35": "bottom_right_in_dirt",
-                     "33": "bottom_left_in_dirt",
-                     "54": "left_dirt_platform",
-                     "55": "middle_dirt_platform",
-                     "56": "right_dirt_platform"}
-        
-        ice_tiles = {"441": "sprite306",
-                     "442": "sprite307",
-                     "443": "sprite308",
-                     "444": "sprite309",
-                     "310": "sprite175",
-                     "558": "sprite335",
-                     "510": "sprite369",
-                     "511": "sprite370",
-                     "512": "sprite371",
-                     "513": "sprite372",
-                     "514": "sprite373",
-                     "515": "sprite374",
-                     "162": "sprite45",
-                     "163": "sprite46",
-                     "352": "sprite297",
-                     "315": "sprite180"
-                     }
+        if self.background_name == 'assets/Background/sunset_mountain/mountain.png':
+            self.load_sunset_mountain()
+        elif self.background_name == 'assets/Background/icy_arena/arena.png':
+            self.load_icy_arena()
+        elif self.background_name == 'assets/Background/neo_lagos/neo.png':
+            self.load_neo_lagos()
 
-        if background_name == 'assets/Background/Glacial/glacial.png':
-            spritesheet = Spritesheet('assets/Platform/tiles/tileset_ice_64x.png')
-            #spritesheet = Spritesheet('assets/Platform/tiles/tileset_mountains_64x.png')
-            self.map = TileMap('worlds/icy_arena/icy_arena_64x.csv', spritesheet, ice_tiles)
-        elif background_name == 'assets/Background/Mountain/naughty_peak.png':
-            # spritesheet = Spritesheet('assets/Platform/tiles/tileset_ice_64x.png')
-            spritesheet = Spritesheet('assets/Platform/tiles/tileset_mountains_64x.png')
-            self.map = TileMap('worlds/naughty_mountain/naughty_peek_64x.csv', spritesheet, mountain_tiles)
+    def load_icy_arena(self):
+        #Chargement des tuiles associées au background de la map
+        arena_tiles = {}
+        with open('worlds/icy_arena/icy_arena_tiles.txt') as tiles:
+            for line in tiles:
+                (key, val) = line.split()
+                arena_tiles[key] = val
+        spritesheet = Spritesheet('assets/Platform/tiles/icy_arena/tileset_ice_64x.png')
+        self.map = TileMap('worlds/icy_arena/icy_arena_64x.csv', spritesheet, arena_tiles)
+
+    def load_sunset_mountain(self):
+        # dictionnaires des tile sheet et de leur valeur dans le csv
+        mountain_tiles = {}
+        with open('worlds/sunset_mountain/sunset_mountain_tiles.txt') as tiles:
+            for line in tiles:
+                (key, val) = line.split()
+                mountain_tiles[key] = val
+        spritesheet = Spritesheet('assets/Platform/tiles/tileset_mountains_64x.png')
+        self.map = TileMap('worlds/sunset_mountain/sunset_mountain/sunset_mountain_64x.csv', spritesheet, mountain_tiles)
+
+    def load_neo_lagos(self):
+        neo_tiles = {}
+        with open('worlds/neo_lagos/neo_lagos_tiles.txt') as tiles:
+            for line in tiles:
+                (key, val) = line.split()
+                neo_tiles[key] = val
+        spritesheet = Spritesheet('assets/Platform/tiles/tileset_city_64x.png')
+        self.map = TileMap('worlds/neo_lagos/neo_lagos/neo_lagos_64x.csv', spritesheet, neo_tiles)
     
     def get_name_proj(self):
         """Retourne le nom des deux projectiles choisi

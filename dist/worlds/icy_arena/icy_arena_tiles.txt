@@ -1,0 +1,16 @@
+441 sprite306
+442 sprite307
+443 sprite308
+444 sprite309
+310 sprite175
+558 sprite335
+510 sprite369
+511 sprite370
+512 sprite371
+513 sprite372
+514 sprite373
+515 sprite374
+162 sprite45
+163 sprite46
+352 sprite297
+315 sprite180
