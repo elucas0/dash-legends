@@ -1,4 +1,3 @@
 *.html linguist-detectable=false
 *.toc linguist-detectable=false
-*.json linguist-vendored=true
-*.csv linguist-vendored=true
+dist/worlds/* linguist-vendored
