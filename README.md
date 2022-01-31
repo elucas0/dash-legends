@@ -1,9 +1,18 @@
-# Dash Legends
-<img alt="Title" src"dist/assets/Background/menu/dashlegends.ico" width="100%">
+# <img alt="Title" src="dist/assets/Background/menu/logo.png" width="15%">
 
 16-bit PvP platform minigame made for a final high-school project
 
 - Runs on Python 3.7 (or more recent) with the Pygame module.
+
+## How to play
+**Both players spawn in a closed arena where they have shoot at each other until one of them loose all its 3 hp.**
+
+- Controls are displayed in "Contrôles" on the main menu
+<img alt="Controls" src="dist/assets/Miscellaneous/Option/controls.png" width="60%">
+
+- There are 3 maps available
+
+<img alt="SM" src="dist/assets/Background/sunset_mountain/mountain_preview.png" width="20%"> <img alt="IA" src="dist/assets/Background/icy_arena/arena_preview.png" width="20%"> <img alt="NL" src="dist/assets/Background/neo_lagos/neo_preview.png" width="20%">
 
 ## How to launch
 
@@ -34,9 +43,3 @@ python3 -m pip install -U pygame --user
 ```
 python3 main.py
 ```
-
-## How to play
-Both players spawn in a closed arena where they have shoot at each other until one of them loose all its 3 hp.
-
-- Controls are displayed in "Contrôles" on the main menu
-<img alt="Controls" src="dist/assets/Miscellaneous/Option/controls.png" width="60%">
