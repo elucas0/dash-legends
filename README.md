@@ -1,4 +1,5 @@
 # Dash Legends
+<img alt="Title" src"dist/assets/Background/menu/dashlegends.ico" width="100%">
 
 16-bit PvP platform minigame made for a final high-school project
 
@@ -38,4 +39,4 @@ python3 main.py
 Both players spawn in a closed arena where they have shoot at each other until one of them loose all its 3 hp.
 
 - Controls are displayed in "Contrôles" on the main menu
-<img alt="Controles" src="dist/assets/Miscellaneous/Option/controls.png" width="60%">
+<img alt="Controls" src="dist/assets/Miscellaneous/Option/controls.png" width="60%">
