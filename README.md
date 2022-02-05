@@ -1,5 +1,7 @@
 # <img alt="Title" src="dist/assets/Background/menu/logo.png" width="15%">
 
+![GitHub release (latest by date including pre-releases)](https://img.shields.io:/github/v/release/PandAmiral/dash-legends?include_prereleases)
+
 16-bit PvP platform minigame made for a final high-school project
 
 - Runs on Python 3.7 (or more recent) with the Pygame module.
