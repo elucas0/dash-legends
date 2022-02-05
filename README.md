@@ -8,11 +8,11 @@
 **Both players spawn in a closed arena where they have shoot at each other until one of them loose all its 3 hp.**
 
 - Controls are displayed in "Contrôles" on the main menu
-<img alt="Controls" src="dist/assets/Miscellaneous/Option/controls.png" width="60%">
+<img alt="Controls" src="dist/assets/Miscellaneous/Option/controls.png" width="65%">
 
-- There are 3 maps available
+- There are 3 maps you can play on : Sunset Mountain, Icy Arena and Neo Lagos
 
-<img alt="SM" src="dist/assets/Background/sunset_mountain/mountain_preview.png" width="20%"> <img alt="IA" src="dist/assets/Background/icy_arena/arena_preview.png" width="20%"> <img alt="NL" src="dist/assets/Background/neo_lagos/neo_preview.png" width="20%">
+<img alt="SM" src="dist/assets/Background/sunset_mountain/mountain_preview.png" width="25%"> <img alt="IA" src="dist/assets/Background/icy_arena/arena_preview.png" width="25%"> <img alt="NL" src="dist/assets/Background/neo_lagos/neo_preview.png" width="25%">
 
 ## How to launch
 
