@@ -48,6 +48,7 @@ class Player(animation.AnimateSprite):
         self.checkCollisionsx(tiles)
         self.vertical_movement(dt)
         self.checkCollisionsy(tiles)
+        self.playerFall()
 
         # les collisions avec le portail de téléportation
         if time.time() - self.time_laps > 0.2:
@@ -175,6 +176,16 @@ class Player(animation.AnimateSprite):
                 self.velocity.y = 0  # Arrête le saut du joueur
                 self.rect.y = tile.rect.bottom + self.rect.h
                 self.rect.bottom = self.rect.y
+
+    def playerFall(self):
+        """Vérifie sur le joueur tombe"""
+        if self.rect.y >= self.h :
+            self.respawn()
+            self.get_damage()
+
+    def respawn(self):
+        self.rect.x = self.w/2
+        self.rect.y = self.h/2
 
     def limit_velocity(self, max_vel):
         # Définit les valeurs minimale et maximale que peut prendre velocité

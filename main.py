@@ -10,17 +10,17 @@ pygame.mixer.init()
 # Génération de la fenêtre du jeu
 pygame.display.set_caption("DashLegends")
 
-# Met le jeu en plein écran et on détermine le nombre d'image par seconde maximum
+# On met le jeu en plein écran et on détermine le nombre d'image par seconde maximum
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-clock = pygame.time.Clock()
-FPS_MAX = 60  # Limite les IPS
+clock = pygame.time.Clock() # 
+FPS_MAX = 60 #On limite les images par seconde
 
 # Ecran du menu
 menu_bg = pygame.image.load(
-    'assets/Background/menu/DashLegends.png').convert_alpha()  # Ajoute une couche alpha
-menu_bg = pygame.transform.scale(menu_bg, (1920, 1080))  # Mise à l'échelle
+    'assets/Background/menu/DashLegends.png').convert_alpha() # Permet de gagner des FPS
+menu_bg = pygame.transform.scale(menu_bg, (1920, 1080)) # Mise à l'échelle
 
-# Ecran options (sans le logo)
+# Ecran de l'option (sans le logo)
 option_bg = pygame.image.load(
     'assets/Background/menu/option_screen.png').convert_alpha()
 option_bg = pygame.transform.scale(option_bg, (1920, 1080))
@@ -29,7 +29,7 @@ option_bg = pygame.transform.scale(option_bg, (1920, 1080))
 logo = pygame.image.load('assets/Background/menu/logo.png').convert_alpha()
 logo = pygame.transform.scale(logo, (1920//5, 1080//7))
 
-# Preview des maps
+# Mini-maps dans le menu de sélection
 sunset_mountain = pygame.image.load(
     'assets/Background/sunset_mountain/mountain_preview.png').convert_alpha()
 icy_arena = pygame.image.load(
@@ -37,17 +37,15 @@ icy_arena = pygame.image.load(
 neo_lagos = pygame.image.load(
     'assets/Background/neo_lagos/neo_preview.png').convert_alpha()
 
-# Police
-font = pygame.font.Font("assets/Miscellaneous/Font/Montserrat-Black.ttf", 50)
-small_font = pygame.font.Font(
-    "assets/Miscellaneous/Font/Montserrat-Black.ttf", 25)
+# Police d'écriture
+font = pygame.font.SysFont("Montserrat", 50)
+small_font = pygame.font.SysFont("Montserrat", 35)
 pixel = pygame.font.Font("assets/Miscellaneous/Font/8-BIT WONDER.TTF", 20)
-small_pixel = pygame.font.Font(
-    "assets/Miscellaneous/Font/8-BIT WONDER.TTF", 13)
+small_pixel = pygame.font.Font("assets/Miscellaneous/Font/8-BIT WONDER.TTF", 13)
 symbol = pygame.font.SysFont("segoeuisymbol", 35)
 bigsymbol = pygame.font.SysFont("segoeuisymbol", 55)
 
-# Permet de jouer plusieurs sons en même temps
+# Afin de pouvoir jouer plusieurs sons en même temps
 pygame.mixer.set_num_channels(64)
 
 # Musiques
@@ -55,14 +53,14 @@ pygame.mixer.music.load('assets/Music/menu_theme.mp3')
 main_theme = pygame.mixer.Sound('assets/Music/main_theme.mp3')
 over = pygame.mixer.Sound('assets/Music/game_over.mp3')
 
-# Volume par défaut
+#Volume par défaut
 volume = 0.2
 
 pygame.mixer.music.set_volume(volume)
 main_theme.set_volume(volume)
 over.set_volume(volume)
 
-# Boucle musicale
+#Jouer la musique à l'infini
 pygame.mixer.music.play(-1)
 
 # Effets
@@ -75,12 +73,19 @@ on_click.set_volume(0.1)
 on_back.set_volume(0.2)
 launch.set_volume(0.2)
 
-# Schéma des touches
+# Image des touches
 controle = pygame.image.load('assets/Miscellaneous/Option/controls.png')
 
 # Initialisation d'une variable qui détermine si l'on clique
 click = False
 particles = []
+
+
+def update_fps():
+    """Affiche les images par seconde"""
+    fps = str(int(clock.get_fps()))
+    fps_text = font.render(fps, 1, pygame.Color("white"))
+    return fps_text
 
 
 def draw_text(text, font, color, surface, button):
@@ -148,6 +153,7 @@ def main_menu(click):
         mx, my = convert_screen_to_game_coordinates(
             pygame.mouse.get_pos())  # Position de la souris
 
+
         color_play = (220, 139, 220)  # Couleur du bouton pour jouer
         color_options = (244, 187, 164)  # Couleur du bouton options
         color_quit = (255, 105, 97)  # Couleur du bouton pour quitter
@@ -159,7 +165,7 @@ def main_menu(click):
 
         # Détermine si la souris passe sur le bouton, si oui, les bords deviennent blanc
         if play.collidepoint((mx, my)):
-            color_play = (255, 255, 255)  # Changer les couleurs des boutons
+            color_play = (255, 255, 255) # Changer les couleurs des boutons
             if click:  # Si le bouton est cliquer, démarrer le jeu
                 on_click.play()
                 choose(Game())
@@ -186,6 +192,7 @@ def main_menu(click):
         pygame.draw.rect(menu_surface, color_quit, quit, 3, border_radius=15)
         draw_text('Quitter', pixel, color_quit, menu_surface, quit)
 
+
         click = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -195,7 +202,7 @@ def main_menu(click):
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-                if event.key == pygame.K_RETURN:  # Si on appuie sur entrée
+                if event.key == pygame.K_RETURN: #Si on appuie sur entrée
                     on_click.play()
                     choose(Game())
             if event.type == pygame.MOUSEBUTTONDOWN:  # Si on fais clic gauche
@@ -246,7 +253,7 @@ def option(volume):
                 over.set_volume(volume)
 
         elif increase.collidepoint((mx, my)):
-            # Augmenter le volume
+            #Augmenter le volume
             color_increase = (255, 255, 255)
             if click and volume < 1:
                 on_back.play()
@@ -310,6 +317,7 @@ def pause(game, click):
         menu = pygame.Rect(1920/2-100, 1080/2, 200, 50)
         options = pygame.Rect(1920/2-100, 1080/2+100, 200, 50)
         unpause = pygame.Rect(1920/2-100, 1080/2+200, 200, 50)
+        
 
         if menu.collidepoint((mx, my)):
             color_menu = (255, 255, 255)
@@ -363,14 +371,14 @@ def pause(game, click):
 
 def choose(game):
     """Choisir les personnages ainsi que les projectiles"""
-    select = None
+    select = 'arena'
     choose_surface = pygame.Surface((1920, 1080))
     RUNNING = True
     while RUNNING:
         present_game_surface_on_screen(choose_surface)
 
         choose_surface.blit(option_bg, (0, 0))
-
+        
         # choisir les joueurs et les projectiles
         game.choose_players(choose_surface, 1920, 1080)
         game.choose_proj(choose_surface, 1920, 1080)
@@ -383,7 +391,7 @@ def choose(game):
         menu = pygame.Rect(1920/15-100, 1080/40, 100, 45)
         lessgo = pygame.Rect(1920/2 - 100, 1080 - 1080/5, 200, 50)
 
-        # Rectangle autour des maps
+        # Rectangles de selection autour des maps
         map1_rect = pygame.Rect(1920-10-sunset_mountain.get_width(), 1080-10-sunset_mountain.get_height(),
                            sunset_mountain.get_width(), sunset_mountain.get_height())
         map2_rect = pygame.Rect(1920-10-icy_arena.get_width(), 1080/1.2-10-icy_arena.get_height(),
@@ -403,10 +411,10 @@ def choose(game):
 
         player2_l = pygame.Rect(1920/2+150, 1080/2.25, 30, 30)
         player2_r = pygame.Rect(1920/2+470, 1080/2.25, 30, 30)
-
+        
         proj1_l = pygame.Rect(1920/2 - 460, 1080/1.48, 30, 30)
         proj1_r = pygame.Rect(1920/2 - 220, 1080/1.48, 30, 30)
-
+        
         proj2_l = pygame.Rect(1920/2+190, 1080/1.48, 30, 30)
         proj2_r = pygame.Rect(1920/2 + 430, 1080/1.48, 30, 30)
 
@@ -440,18 +448,17 @@ def choose(game):
                 main_theme.play(loops=-1)
                 name_player_1, name_player_2 = game.get_name_players()
                 name_proj_1, name_proj_2 = game.get_name_proj()
-                ingame(Game(name_player_1, name_player_2, name_proj_1, name_proj_2, map_background),
-                       name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
+                ingame(Game(name_player_1, name_player_2, name_proj_1, name_proj_2, map_background), name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
 
         if map1_rect.collidepoint((mx, my)):
             color_rect_map_1 = (255, 105, 97)
-            if click:  # Si le bouton est cliquer, démarrer le jeu
-                select = 'sunset'
+            if click:
+                select = 'mountain'
 
         if map2_rect.collidepoint((mx, my)):
             color_rect_map_2 = (255, 105, 97)
-            if click:  # Si le bouton est cliquer, démarrer le jeu
-                select = 'icy'
+            if click:
+                select = 'arena'
 
         if map3_rect.collidepoint((mx, my)):
             color_rect_map_3 = (255, 105, 97)
@@ -481,31 +488,31 @@ def choose(game):
             if click:  # Si le bouton est cliquer, démarrer le jeu
                 game.perso_at_right(False, True)
                 on_click.play()
-
+                
         elif proj1_l.collidepoint((mx, my)):
             proj1_l_color = (220, 139, 220)
             if click:  # Si le bouton est cliquer, démarrer le jeu
                 game.proj_at_left(True, False)
                 on_click.play()
-
+                
         elif proj1_r.collidepoint((mx, my)):
             proj1_r_color = (220, 139, 220)
             if click:  # Si le bouton est cliquer, démarrer le jeu
                 game.proj_at_right(True, False)
                 on_click.play()
-
+                
         elif proj2_l.collidepoint((mx, my)):
             proj2_l_color = (220, 139, 220)
             if click:  # Si le bouton est cliquer, démarrer le jeu
                 game.proj_at_left(False, True)
                 on_click.play()
-
+                
         elif proj2_r.collidepoint((mx, my)):
             proj2_r_color = (220, 139, 220)
             if click:  # Si le bouton est cliquer, démarrer le jeu
                 game.proj_at_right(False, True)
                 on_click.play()
-
+        
         # Texte
         draw_text("Choisissez votre personnage",
                   pixel, (255, 209, 220), choose_surface, choose_player)
@@ -516,19 +523,22 @@ def choose(game):
 
         pygame.draw.rect(choose_surface, color_lessgo,
                          lessgo, 1, border_radius=15)
-        draw_text("Lancer", small_font,
+        draw_text("C'est parti !", small_font,
                   color_lessgo, choose_surface, lessgo)
+
 
         draw_text("◀", symbol, player1_l_color, choose_surface, player1_l)
         pygame.draw.rect(choose_surface, (255, 255, 255),
                          player1, 2, border_radius=15)
         draw_text("▶",
                   symbol, player1_r_color, choose_surface, player1_r)
-
+        
+        
         draw_text("◀", symbol, proj1_l_color, choose_surface, proj1_l)
         pygame.draw.rect(choose_surface, (255, 255, 255),
                          choose_proj1, 2, border_radius=15)
         draw_text("▶", symbol, proj1_r_color, choose_surface, proj1_r)
+
 
         draw_text("◀",
                   symbol, player2_l_color, choose_surface, player2_l)
@@ -536,24 +546,25 @@ def choose(game):
                          player2, 2, border_radius=15)
         draw_text("▶",
                   symbol, player2_r_color, choose_surface, player2_r)
-
+        
         draw_text("◀", symbol, proj2_l_color, choose_surface, proj2_l)
         pygame.draw.rect(choose_surface, (255, 255, 255),
                          choose_proj2, 2, border_radius=15)
         draw_text("▶", symbol, proj2_r_color, choose_surface, proj2_r)
 
         # Maps
-        if select == 'sunset':
+        if select == 'mountain':
             color_rect_map_1 = (255, 105, 97)
             map_background = 'assets/Background/sunset_mountain/mountain.png'
-        elif select == 'icy':
+        elif select == 'arena':
             color_rect_map_2 = (255, 105, 97)
             map_background = 'assets/Background/icy_arena/arena.png'
-        elif select == 'neo' :
+        else :
             color_rect_map_3 = (255, 105, 97)
             map_background = 'assets/Background/neo_lagos/neo.png'
 
-        #Boutons de sélection des maps
+        #Boutons de sélection des maps :
+
         #Map sunset mountain
         choose_surface.blit(
             sunset_mountain, (1920-10-sunset_mountain.get_width(), 1080-10-sunset_mountain.get_height()))
@@ -568,6 +579,7 @@ def choose(game):
         choose_surface.blit(
             neo_lagos, (1920-10-neo_lagos.get_width(), 1080/1.5-10-neo_lagos.get_height()))
         pygame.draw.rect(choose_surface, color_rect_map_3, map3_rect, 1)
+
 
         click = False
         for event in pygame.event.get():
@@ -589,8 +601,7 @@ def choose(game):
                     main_theme.play(loops=-1)
                     name_player_1, name_player_2 = game.get_name_players()
                     name_proj_1, name_proj_2 = game.get_name_proj()
-                    ingame(Game(name_player_1, name_player_2, name_proj_1, name_proj_2, map_background),
-                           name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
+                    ingame(Game(name_player_1, name_player_2, name_proj_1, name_proj_2, map_background), name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
 
             if event.type == pygame.MOUSEBUTTONDOWN:  # Si on fais clic gauche
                 if event.button == 1:
@@ -616,6 +627,8 @@ def ingame(game, name_player_1, name_player_2, name_proj_1, name_proj_2, map_bac
         check_1, check_2 = game.update(dt)
 
         present_game_surface_on_screen(game.surface)
+        # Affiche les ips
+        screen.blit(update_fps(), (10, 0))
 
         # Mise à jour de l'écran
         pygame.display.flip()
@@ -649,8 +662,7 @@ def ingame(game, name_player_1, name_player_2, name_proj_1, name_proj_2, map_bac
             RUNNING = False
             end_game = EndGame("Joueur 1", "Joueur 2",
                                name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
-            game_over("Joueur 1", end_game, name_player_1,
-                      name_player_2, name_proj_1, name_proj_2, map_background)
+            game_over("Joueur 1", end_game, name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
         elif check_2:
             # Si le joueur 1 à perdu
             pygame.mixer.stop()
@@ -658,12 +670,11 @@ def ingame(game, name_player_1, name_player_2, name_proj_1, name_proj_2, map_bac
             RUNNING = False
             end_game = EndGame("Joueur 2", "Joueur 1",
                                name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
-            game_over("Joueur 2", end_game, name_player_1,
-                      name_player_2, name_proj_1, name_proj_2, map_background)
+            game_over("Joueur 2", end_game, name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
 
 
 def game_over(player, end_game, name_player_1, name_player_2, name_proj_1, name_proj_2, map_background):
-    """Fonction de fin lorsque un joueur est vaincu !"""
+    """Fonction de fin lorsque un joueur est vaincu"""
     gameover_surface = pygame.Surface((1920, 1080))
     RUNNING = True
     click = False
@@ -677,14 +688,14 @@ def game_over(player, end_game, name_player_1, name_player_2, name_proj_1, name_
         end_game.moving_sprites.draw(gameover_surface)
 
         mx, my = convert_screen_to_game_coordinates(
-            pygame.mouse.get_pos())  # Position de la souris
+          pygame.mouse.get_pos())  # Position de la souris
 
         # Particules qui se déplacent différement et de taille différente
         particles.append(
-            [[1920/3, 1080/2.5], [random.randint(0, 30) / 10 - 5, -2], random.randint(6, 11)])
+        [[1920/3, 1080/2.5], [random.randint(0, 30) / 10 - 5, -2], random.randint(6, 11)])
 
         particles.append(
-            [[1920/1.5, 1080/2.5], [random.randint(0, 30) / 10-5, -2], random.randint(6, 11)])
+        [[1920/1.5, 1080/2.5], [random.randint(0, 30) / 10-5, -2], random.randint(6, 11)])
 
         winner = pygame.Rect(1920/2-100, 1080/2.5, 200, 50)
         menu = pygame.Rect(1920/2-300, 1080 - 1080/5, 200, 50)
@@ -708,8 +719,7 @@ def game_over(player, end_game, name_player_1, name_player_2, name_proj_1, name_
                 launch.play()
                 pygame.mixer.stop()
                 main_theme.play(loops=-1)
-                ingame(Game(name_player_1, name_player_2, name_proj_1, name_proj_2, map_background),
-                       name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
+                ingame(Game(name_player_1, name_player_2, name_proj_1, name_proj_2, map_background), name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
 
         draw_text(f"Le {player} remporte la DashVictoire",
                   pixel, (239, 199, 121), gameover_surface, winner)
@@ -745,8 +755,7 @@ def game_over(player, end_game, name_player_1, name_player_2, name_proj_1, name_
                     launch.play()
                     pygame.mixer.stop()
                     main_theme.play(loops=-1)
-                    ingame(Game(name_player_1, name_player_2, name_proj_1, name_proj_2, map_background),
-                           name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
+                    ingame(Game(name_player_1, name_player_2, name_proj_1, name_proj_2, map_background), name_player_1, name_player_2, name_proj_1, name_proj_2, map_background)
             if event.type == pygame.MOUSEBUTTONDOWN:  # Si on fais clic gauche
                 if event.button == 1:
                     click = True

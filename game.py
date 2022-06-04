@@ -12,16 +12,20 @@ from thread import MyThread
 
 class Game:
     def __init__(self, name_player_1='blue_dino', name_player_2='red_dino', name_proj_1='Spark', name_proj_2='Bolt', background_name='assets/Background/sunset_mountain/mountain.png'):
-        # definir si la partie à commencé ou non
+        # definir si notre jeu à commencé ou non
         self.is_playing = False
         self.over = False
-        # Hauteur et largeur de l'ecran fixées
+        # Hauteur et largeur de l'ecran fixé
         self.surface = pygame.Surface((1920, 1080))
         self.w, self.h = self.surface.get_size()
 
         # portail de téléportation
         self.portail_1 = animation.AnimatePortail(self, 'portail 1', background_name)
         self.portail_2 = animation.AnimatePortail(self, 'portail 2', background_name)
+        
+        # if self.background_name == 'assets/Background/neo_lagos/neo_lagos.png':
+        #     self.portail_3 = animation.AnimatePortail(self, 'portail 3', background_name)
+        #     self.portail_4 = animation.AnimatePortail(self, 'portail 4', background_name)
 
         # Initialisation du temps entre chaque tir des joueurs
         self.tps_player_2 = 0
@@ -51,17 +55,17 @@ class Game:
         # dedans ce sera le nom des joueurs
         self.proj_chosen = ["", ""]
 
-
         # Fond d'écran
+        self.background_name = background_name
         self.background = pygame.image.load(background_name).convert()
         self.background = pygame.transform.scale(self.background, (1920, 1080))
 
-        if self.background_name == 'assets/Background/sunset_mountain/mountain.png':
-            self.load_sunset_mountain()
-        elif self.background_name == 'assets/Background/icy_arena/arena.png':
+        if self.background_name == 'assets/Background/icy_arena/arena.png':
             self.load_icy_arena()
         elif self.background_name == 'assets/Background/neo_lagos/neo.png':
             self.load_neo_lagos()
+        elif self.background_name == 'assets/Background/sunset_mountain/mountain.png':
+            self.load_sunset_mountain()
 
     def load_icy_arena(self):
         #Chargement des tuiles associées au background de la map
@@ -70,7 +74,7 @@ class Game:
             for line in tiles:
                 (key, val) = line.split()
                 arena_tiles[key] = val
-        spritesheet = Spritesheet('assets/Platform/tiles/icy_arena/tileset_ice_64x.png')
+        spritesheet = Spritesheet('assets/Platform/tiles/tileset_ice_64x.png')
         self.map = TileMap('worlds/icy_arena/icy_arena_64x.csv', spritesheet, arena_tiles)
 
     def load_sunset_mountain(self):
@@ -81,7 +85,7 @@ class Game:
                 (key, val) = line.split()
                 mountain_tiles[key] = val
         spritesheet = Spritesheet('assets/Platform/tiles/tileset_mountains_64x.png')
-        self.map = TileMap('worlds/sunset_mountain/sunset_mountain/sunset_mountain_64x.csv', spritesheet, mountain_tiles)
+        self.map = TileMap('worlds/sunset_mountain/sunset_mountain_64x.csv', spritesheet, mountain_tiles)
 
     def load_neo_lagos(self):
         neo_tiles = {}
@@ -90,8 +94,8 @@ class Game:
                 (key, val) = line.split()
                 neo_tiles[key] = val
         spritesheet = Spritesheet('assets/Platform/tiles/tileset_city_64x.png')
-        self.map = TileMap('worlds/neo_lagos/neo_lagos/neo_lagos_64x.csv', spritesheet, neo_tiles)
-    
+        self.map = TileMap('worlds/neo_lagos/neo_lagos_64x.csv', spritesheet, neo_tiles)
+
     def get_name_proj(self):
         """Retourne le nom des deux projectiles choisi
 

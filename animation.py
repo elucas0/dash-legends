@@ -287,20 +287,28 @@ class AnimatePortail(pygame.sprite.Sprite):
         self.image = portail[0]
         self.rect = self.image.get_rect()
         # postionner le portail suivant la map chosis
-        if map == 'assets/Background/Mountain/naughty_peak.png':
+        if map == 'assets/Background/sunset_mountain/mountain.png':
             if self.name == 'portail 1':
                 self.rect.x = self.game.w // 1.17
                 self.rect.y = self.game.h // 1.66
             elif self.name == 'portail 2':
                 self.rect.x = self.game.w // 20 - self.rect.width // 1.3
                 self.rect.y = self.game.h // 20
-        elif map == 'assets/Background/Glacial/glacial.png':
+        elif map == 'assets/Background/icy_arena/arena.png':
             if self.name == 'portail 1':
                 self.rect.x = self.game.w // 1.1
                 self.rect.y = self.game.h // 2.5
             elif self.name == 'portail 2':
                 self.rect.x = self.game.w // 3
                 self.rect.y = self.game.h // 20 - 70
+        elif map == 'assets/Background/neo_lagos/neo.png':
+            if self.name == 'portail 1':
+                self.rect.x = self.game.w // 1.1
+                self.rect.y = self.game.h // 20 - 40
+            elif self.name == 'portail 2':
+                self.rect.x = self.game.w // 15
+                self.rect.y = self.game.h // 3.5
+            
         self.frame = 0
         # récupérer les images du portail
         self.images = portail
@@ -314,8 +322,6 @@ class AnimatePortail(pygame.sprite.Sprite):
             self.frame = 0
         self.image = self.images[self.frame // 5]
 
-
-
 def load_images(path_to_directory):
     """Load images and return them as a dict."""
     images = []
@@ -326,7 +332,6 @@ def load_images(path_to_directory):
             # enlever l'arriere plan qui peut être en noir
             images[-1].set_colorkey((0, 0, 0))
     return images
-
 
 def load_images_sheet(sprite_sheet, frame_name):
     # recuperer les donnees du fichier '.json' où se trouvent les images
@@ -602,7 +607,7 @@ for key in animations['persos'].keys():
     for img in animations['persos'][key].keys():
         if 'dino' in key and 'run' in img:
             height_perso = origin_height_perso
-            # éviter que le dino est une grosse tete quand il court
+            # éviter que le dino ait une grosse tete quand il court
             height_perso //= 1.1
             redim_sprite(animations['persos'][key][img], height_perso)
         else:
