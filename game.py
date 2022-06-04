@@ -74,7 +74,7 @@ class Game:
             for line in tiles:
                 (key, val) = line.split()
                 arena_tiles[key] = val
-        spritesheet = Spritesheet('assets/Platform/tiles/tileset_ice_64x.png')
+        spritesheet = Spritesheet('assets/Platform/tiles/icy_arena/tileset_ice_64x.png')
         self.map = TileMap('worlds/icy_arena/icy_arena_64x.csv', spritesheet, arena_tiles)
 
     def load_sunset_mountain(self):
@@ -84,7 +84,7 @@ class Game:
             for line in tiles:
                 (key, val) = line.split()
                 mountain_tiles[key] = val
-        spritesheet = Spritesheet('assets/Platform/tiles/tileset_mountains_64x.png')
+        spritesheet = Spritesheet('assets/Platform/tiles/sunset_mountain/tileset_mountains_64x.png')
         self.map = TileMap('worlds/sunset_mountain/sunset_mountain_64x.csv', spritesheet, mountain_tiles)
 
     def load_neo_lagos(self):
@@ -93,7 +93,7 @@ class Game:
             for line in tiles:
                 (key, val) = line.split()
                 neo_tiles[key] = val
-        spritesheet = Spritesheet('assets/Platform/tiles/tileset_city_64x.png')
+        spritesheet = Spritesheet('assets/Platform/tiles/neo_lagos/tileset_city_64x.png')
         self.map = TileMap('worlds/neo_lagos/neo_lagos_64x.csv', spritesheet, neo_tiles)
 
     def get_name_proj(self):
