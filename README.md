@@ -18,12 +18,6 @@
 
 ## How to launch
 
-### Executable
-
-1. Execute "dist/main.exe"
-
-### Command line
-
 **Install pygame on Windows**
 
 1. Install pygame with pip on the command prompt
