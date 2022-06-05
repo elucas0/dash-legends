@@ -18,6 +18,9 @@
 
 ## How to launch
 
+**Executable**
+1. Execute "DashLegends.exe"
+
 **Install pygame on Windows**
 
 1. Install pygame with pip on the command prompt
