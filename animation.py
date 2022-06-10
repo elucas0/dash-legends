@@ -583,7 +583,7 @@ animations = {
     },
     'huds': {
         'hud': {
-            'heart': load_images('assets/Platform/hud/heart')
+            'heart': load_images('assets/hud/heart')
         }
     }
 }

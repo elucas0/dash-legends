@@ -61,40 +61,20 @@ class Game:
         self.background = pygame.transform.scale(self.background, (1920, 1080))
 
         if self.background_name == 'assets/Background/icy_arena/arena.png':
-            self.load_icy_arena()
+            self.load_map('worlds/icy_arena/ia_tiles.txt', 'worlds/icy_arena/ia_64x.csv', 'assets/tiles/icy_arena/tileset_ia_64x.png')
         elif self.background_name == 'assets/Background/neo_lagos/neo.png':
-            self.load_neo_lagos()
+            self.load_map('worlds/neo_lagos/nl_tiles.txt', 'worlds/neo_lagos/nl_64x.csv', 'assets/tiles/neo_lagos/tileset_nl_64x.png')
         elif self.background_name == 'assets/Background/sunset_mountain/mountain.png':
-            self.load_sunset_mountain()
+            self.load_map('worlds/sunset_mountain/sm_tiles.txt', 'worlds/sunset_mountain/sm_64x.csv', 'assets/tiles/sunset_mountain/tileset_sm_64x.png')
 
-    def load_icy_arena(self):
-        #Chargement des tuiles associées au background de la map
-        arena_tiles = {}
-        with open('worlds/icy_arena/icy_arena_tiles.txt') as tiles:
+    def load_map(self, path_to_tiles, path_to_csv, path_to_spritesheet):
+        map_tiles = {}
+        with open(path_to_tiles) as tiles:
             for line in tiles:
                 (key, val) = line.split()
-                arena_tiles[key] = val
-        spritesheet = Spritesheet('assets/Platform/tiles/icy_arena/tileset_ice_64x.png')
-        self.map = TileMap('worlds/icy_arena/icy_arena_64x.csv', spritesheet, arena_tiles)
-
-    def load_sunset_mountain(self):
-        # dictionnaires des tile sheet et de leur valeur dans le csv
-        mountain_tiles = {}
-        with open('worlds/sunset_mountain/sunset_mountain_tiles.txt') as tiles:
-            for line in tiles:
-                (key, val) = line.split()
-                mountain_tiles[key] = val
-        spritesheet = Spritesheet('assets/Platform/tiles/sunset_mountain/tileset_mountains_64x.png')
-        self.map = TileMap('worlds/sunset_mountain/sunset_mountain_64x.csv', spritesheet, mountain_tiles)
-
-    def load_neo_lagos(self):
-        neo_tiles = {}
-        with open('worlds/neo_lagos/neo_lagos_tiles.txt') as tiles:
-            for line in tiles:
-                (key, val) = line.split()
-                neo_tiles[key] = val
-        spritesheet = Spritesheet('assets/Platform/tiles/neo_lagos/tileset_city_64x.png')
-        self.map = TileMap('worlds/neo_lagos/neo_lagos_64x.csv', spritesheet, neo_tiles)
+                map_tiles[key] = val
+        spritesheet = Spritesheet(path_to_spritesheet)
+        self.map = TileMap(path_to_csv, spritesheet, map_tiles)
 
     def get_name_proj(self):
         """Retourne le nom des deux projectiles choisi
