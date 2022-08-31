@@ -2,9 +2,9 @@
 
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io:/github/v/release/PandAmiral/dash-legends?include_prereleases)
 
-16-bit PvP platform minigame made for a final high-school project
+16-bit 1v1 platform minigame made for a final high-school project
 
-- Runs on Python 3.7 (or more recent) with the Pygame module.
+- Runs on Python 3.7 (or more recent) using the Pygame library.
 
 ## How to play
 **Both players spawn in a closed arena where they have shoot at each other until one of them loose all its 3 hp.**
